@@ -1,26 +1,27 @@
-//с JSON.parse вышли проблемы, поэтому было принято решение изменить руками.
-const invoice =
+const invoice=[
     {
-        customer: "MDT",
-        performance: [
+        "customer": "MDT",
+        "performance": [
             {
-                playId: "Гамлет",
-                audience: 55,
-                type: "tragedy"
+                "playId": "Гамлет",
+                "audience": 55,
+                "type": "tragedy"
             },
             {
-                playId: "Ромео и Джульетта",
-                audience: 35,
-                type: "tragedy"
+                "playId": "Ромео и Джульетта",
+                "audience": 35,
+                "type": "tragedy"
             },
             {
-                playId: "Отелло",
-                audience: 40,
-                type: "comedy"
+                "playId": "Отелло",
+                "audience": 40,
+                "type": "comedy"
             }
-        ]
+            ]
     }
+]
 
+console.log(invoice)
 //не понял зачем нужен параметр plays - поэтому убрал его.
 function statement(invoice) {
     let perf;
@@ -47,6 +48,8 @@ function statement(invoice) {
                     thisAmount += 10000 + 500 * (perf.audience - 20);
                 }
                 thisAmount += 300 * perf.audience;
+                //Сюда можно добавить проверку на положительное число зрителей, но это глупо т.к. такое могут ввести только по ошибке.
+                volumeCredits += Math.floor(perf.audience / 10);
                 break;
             default:
                 throw new Error(`неизвестный тип: ${perf.type}`);
@@ -55,16 +58,14 @@ function statement(invoice) {
 // Добавление бонусов
         volumeCredits += Math.max(perf.audience - 30, 0);
 // Дополнительный бонус за каждые 10 комедий
-        //Сюда можно добавить проверку на положительное число зрителей, но это глупо т.к. такое могут ввести только по ошибке.
-        if ("comedy" === perf.type) volumeCredits += Math.floor(perf.audience / 10);
+
 // Вывод строки счета
-        result += `${perf.playId}: ${format(thisAmount / 100)}`;
-        result += `(${perf.audience} мест)\n`;
+        result += `${perf.playId}: ${format(thisAmount / 100)} (${perf.audience} мест)\n`;
         amount += thisAmount
     }
-    result += `Итого с вас ${format(amount / 100)}\n`;
-    result += `Вы заработали ${volumeCredits} бонусов\n`;
+    result += `Итого с вас ${format(amount / 100)}
+Вы заработали ${volumeCredits} бонусов\n`;
     return result;
 }
 //Вывод для теста напрямую
-// console.log(statement(invoice))
+// console.log(statement(invoice[0]))
