@@ -21,7 +21,6 @@ const invoice=[
     }
 ]
 
-console.log(invoice)
 //не понял зачем нужен параметр plays - поэтому убрал его.
 function statement(invoice) {
     let perf;
